@@ -46,14 +46,15 @@ class FPGALED:
 
 		# CSR
 		self.write(0x00, 0x0E)
-
-		self.c.exec()
+		self.exec()
 
 	def write(self, address, data):
 		self.c.queue_write(0, address << 2, data)
 
 	def exec(self):
 		self.c.exec()
+		# create a new wishbone object after executing the previous one
+		self.c = FPGAWB()
 
 	def led_color(self, r, g, b):
 		# r and g swapped on mch2022 badge
